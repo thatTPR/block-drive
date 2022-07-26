@@ -1,0 +1,7 @@
+service controller {
+    "getFolders": (String) -> (Vec) query;
+    "getFiles": (String) -> (Vec) query ;
+    "getAll": (String) -> (Vec) query ;
+    "getFileContents"(String, nat, nat) -> (Text) query ;
+    "getFileShards"(String) -> (Vec) query ;
+  }

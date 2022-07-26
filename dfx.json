@@ -1,0 +1,39 @@
+{
+    "version": 1,
+    "dfx": "0.10.1",
+    "canisters": {
+        "icpfs_shard": {
+            "package": "icpfs_shard",
+            "candid": "shard/shard.did",
+            "type": "rust",
+            "source": "src/icpfs_shard.rs",
+            "dependencies": []
+        },
+        "icpfs_controller": {
+            "package": "icpfs_controller",
+            "candid": "icpfs/icpfs.did",
+            "type": "rust",
+            "source": "src/icpfs_shard.rs",
+            "dependencies": []
+        },
+        "assets": {
+            "package": "assets",
+            "candid": "assets/assets.did",
+            "type": "asset",
+            "source": "src/assets.rs",
+            "dependencies": []
+        }
+    }
+},
+"defaults": {
+    "build": {
+        "packtool": "",
+        "args": ""
+    }
+},
+"networks": {
+    "local": {
+        "bind": "127.0.0.1:1024",
+        "type": "ephemeral"
+    }
+}

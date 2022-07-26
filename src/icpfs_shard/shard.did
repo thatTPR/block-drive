@@ -1,0 +1,9 @@
+service fs_shard {
+    "clone": () -> (prinicipal, bool) update ;
+    "update_reference": (Vec, ) -> (principal , bool ) update ;
+    
+    "getFolders": (String) -> (Vec) query;
+    "getFiles": (String) -> (Vec) query ;
+    "getAll": (String) -> (Vec) query ;
+    "getFileContents"(String, nat, nat) -> (Text) query ;
+}
