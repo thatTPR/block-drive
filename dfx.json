@@ -20,7 +20,7 @@
             "package": "assets",
             "candid": "assets/assets.did",
             "type": "asset",
-            "source": "src/assets.rs",
+            "source": "src/index.js",
             "dependencies": []
         }
     }
@@ -35,5 +35,10 @@
     "local": {
         "bind": "127.0.0.1:1024",
         "type": "ephemeral"
-    }
+    },
+    "testnet": {
+        "bind": "",
+        "type": "ephemeral",
+        "args": " "
+    },
 }

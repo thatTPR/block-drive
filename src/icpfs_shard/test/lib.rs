@@ -1,1 +1,1 @@
-mod 
+use candid;

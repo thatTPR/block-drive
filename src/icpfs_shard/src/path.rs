@@ -14,4 +14,3 @@ impl Path {
         return self.nodes.pop().pop();
     }
 }
-// TODO maybe child using bitmap to figure out system that manages it. Redesign might be necessarry

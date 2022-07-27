@@ -64,11 +64,11 @@ impl SuperBlock {
         };
     }
     #[inline(always)]
-    fn write(self, fs_start: u64) {
+    pub fn write(self, fs_start: u64) {
         stable64_write(fs_start, bincode::serialize::<SuperBlock>(&self));
     }
     #[inline(always)]
-    fn read(self, offset: u64) {
+    pub fn read(self, offset: u64) {
         let buf: &mut [u8];
         stable64_read(offset, buf);
         let sb = bincode::deserialize::<SuperBlock>(buf);
@@ -96,7 +96,7 @@ pub struct BitMap {
 }
 
 impl BitMap {
-    fn new(blockNo: u32, offset: u32, block_start: u64) -> Self {
+    pub fn new(blockNo: u32, offset: u32, block_start: u64) -> Self {
         let bm = Self {
             // Initialized with None This is the default state , memory has not yet been grown,
             // or the bitmap has not yet been initialized.
@@ -131,7 +131,7 @@ impl BitMap {
     fn write(&self, offset: u64) {
         stable64_write(offset, bincode::serialize(self));
     }
-    fn read(offset: u64) -> Self {
+    pub fn read(offset: u64) -> Self {
         let bytes: &[u8; size_of::<BitMap>()];
         stable64_read(offset, bytes);
         return bincode::deserialize(bytes);
@@ -159,6 +159,7 @@ impl InodeTable {
             inodes: [None; super::fileSys::MAX_BLOCKS / 32],
         }
     }
+
     pub fn write(&self, offset: u64) {
         stable64_write(offset, bincode::serialize(self));
     }

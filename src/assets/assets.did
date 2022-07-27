@@ -1,4 +1,5 @@
 service assets {
     "ProvideFolders" : () -> (Vec, bool) update ;
-    "FS" : () -> (Principal , bool ) update 
+    "FolderSys" : () -> (Principal , bool ) update ;
+    "ProvideShardPrincipal" : (Principal, Nat) -> () update ; 
 }

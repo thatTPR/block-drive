@@ -1,6 +1,6 @@
 mod fileSys;
 mod types;
-use std::mem::size_of ;
+use std::{mem::size_of, str::FromStr} ;
 
 mod path; 
 
@@ -9,11 +9,6 @@ use ic_cdk::api::stable::*;
 use ic_cdk_macros::*;
 use ic_utils::canister::Canister;
 use serde::{Serialize, Deserialize};
-
- 
-fn spawn(){
-
-}
 
 
 
@@ -46,8 +41,7 @@ impl ICPFS<'a> {
 
                 current: references.len() , 
                 references: references.push(ic_utils::canister::Canister<'a>::canister_id_(&self)),
-
-                wd: path::Path::new("/"),
+                wd: path::Path::new(String::from_str("/")),
                 fs: fileSys::Fs::new( 1024  , 0)               
             };
         
@@ -57,7 +51,7 @@ impl ICPFS<'a> {
 
     }
    
-    fn init() { // This used for initializes the canister from the filesystem
+    fn init() { // This initializes the canister from the filesystem
          
     }
     fn newStore() { 
@@ -101,17 +95,13 @@ impl ICPFS<'a> {
     fn newFile(dir: fileSys::dir) {
 
     }
-    
-    
-        
-  
     fn mkdir(String: String)   { // TODO
 
         
     }
     fn writeFile(self, path: path::Path) {
 
- }
+    }
     fn findCurrent(name: String) {
 
     }
@@ -159,16 +149,27 @@ use ic_cdk_macros::* ;
 fn clone(){
 
 }
-
-#[update (name = "update_reference")]
-fn update_reference(refs: Vec<ic_utils::Canister>, from : ic_utils::Canister ){ // Updates the references of all shards 
+#[update (name = "updateReference")]
+fn update_Reference(refs: Vec<ic_utils::Canister>, from : ic_utils::Canister ) -> { // Updates the references of all shards 
 
 }
-struct Driver {
+#[query (name = "getFolders")]
+fn get_folders(refs: Vec<ic_utils::Canister> , from : ) {
 
-    // TODO protocol handling, candid interfacing, with authentication,  allow various operations, upload, modify, create new, delete , read, view , all with permissions in mind, Files do not have individual permissions because
-    // that would I think be redundant to some extent , Instead the filesystem itself has permissions associated. It works kinda like Unix Namespaces in that a namespace can only be accessed by authorized principals.
 }
-mod tests {
-    
+#[query (name = "getFiles")]
+fn get_files(refs: ){
+
+}
+#[query (name = "getAll")]
+fn get_All() -> String {
+
+}
+#[query (name = "getFileContents")]
+fn get_FileContents(){
+
+}
+#[query (name = "get_File")]
+fn get_File(){
+
 }

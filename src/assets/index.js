@@ -8,6 +8,9 @@ import core from 'ic:cansisters/core';
 // CANISTER_ID is replaced by webpack based on node enviroment
 
 
+
+
+
 export const canisterId = await login(); // TODO
 
 /**

@@ -4,7 +4,7 @@ use ic_cdk::api ;
 
 use std::{collections::BTreeMap, path::Path};
 use wasm_tracing_allocator::WasmTracingAllocator ;
-use crate::{types::BitMap, path};
+use crate::{types::{BitMap, SuperBlock}, path};
 
 // use wasm_bindgen::prelude::wasm_bindgen
 use super::types ;
@@ -187,7 +187,7 @@ impl dataMap {
         }
     } 
     
-    fn optimize(&self){ // TODO  .
+    fn optimize(&self){ // TODO 
         for i in self.InodeTable.inodes {
         
     }
@@ -305,9 +305,13 @@ impl Fs {
         let mut fs = Self {
             offset: start,
             dataMap: dataMap::new(types::SuperBlock::new(start, blocksize, None, MAX_BLOCKS) ,
-                                    types::BitMap<32>::new(32, ) , HashMap::new(), );
+                                    types::BitMap::new(MAX_BLOCKS, start + size_of<types::SuperBlock>  , HashMap::new()),
+                                     types::InodeTable::new(start + size_of<types::SuperBlock> +size_of<types::BitMap> ),
+                                    HashMap::new()),
+                                    
             cursor: start,
-            handles: todo!(),   
+            handles: Vec::new(),
+            cursor: todo!(), 
         };
         
         
@@ -318,11 +322,12 @@ impl Fs {
     pub fn init(blockSize: u32 ,start: u32){ 
         let mut fs = Self {
             offset: start,
-            dataMap: todo!(),
-            handles: todo!(),
-            cursor: todo!(), 
-            
-        }
+            dataMap: dataMap::new(types::SuperBlock::read(start) ,
+                                    types::BitMap::read(start + size_of<types::SuperBlock>()) , types::InodeTable::read(start + size_of<types::SuperBlock>() + size_of<types::BitMap>()), todo!() )  ,
+            handles: Vec::new(),
+            cursor: start,
+                       
+        };
     }
     fn create_file(&self){
         self.dataMap.create_file();
@@ -365,11 +370,15 @@ impl Fs {
         if self.Inode.dir == true {
             
         }
-        for i in self.Inode.indirect_inodes {
+        for i in self.dataMap.InodeTable.inodes {
+            if i.dir == true {
+                println!("{}", i.name);
+            }
+        }
             
         }
     }
-}
+
 #[cfg(test)]
 mod tests {
     use wasm_bindgen_test::wasm_bindgen_test;
@@ -380,6 +389,7 @@ mod tests {
         assert_eq!(fs.dataMap.sb.blocksize, 1024);
         assert_eq!(fs.dataMap.sb.offset, 0);
     }
+    
 }
 
 

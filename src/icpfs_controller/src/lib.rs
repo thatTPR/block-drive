@@ -50,14 +50,14 @@ impl fs<'_> {
         }
     }
     fn new_shard(self) {
-        self.canisters.push(self.cloneShard())
+        self.canisters.push(self.cloneShard().unwrap());
     }
 }
 
 #[update(name = "cloneShard")]
 fn cloneShard(canister: ic_utils::canister::Canister) -> shardRef<'static> {
     use ic_cdk::*;
-    ic_utils::canister::Canister::clone_with_()
+    ic_utils::canister::Canister::clone_with_();
 }
 
 #[update(name = "getFolders")]

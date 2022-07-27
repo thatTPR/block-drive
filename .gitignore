@@ -1,5 +1,5 @@
 src/*/vendor
 src/*/target
-target/
+target
 icpfs_controller/target
 icpfs_shard/target
