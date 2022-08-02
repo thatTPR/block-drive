@@ -23,22 +23,22 @@
             "source": "src/index.js",
             "dependencies": []
         }
+    },
+    "defaults": {
+        "build": {
+            "packtool": "",
+            "args": ""
+        }
+    },
+    "networks": {
+        "local": {
+            "bind": "127.0.0.1:1024",
+            "type": "ephemeral"
+        },
+        "testnet": {
+            "bind": "",
+            "type": "ephemeral",
+            "args": " "
+        },
     }
 },
-"defaults": {
-    "build": {
-        "packtool": "",
-        "args": ""
-    }
-},
-"networks": {
-    "local": {
-        "bind": "127.0.0.1:1024",
-        "type": "ephemeral"
-    },
-    "testnet": {
-        "bind": "",
-        "type": "ephemeral",
-        "args": " "
-    },
-}

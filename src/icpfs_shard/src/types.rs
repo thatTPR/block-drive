@@ -84,7 +84,7 @@ impl SuperBlock {
 pub struct BitMap {
     // pub data_bitmap: [(bool, u8); n], //
     pub offset: u64,
-
+    pub block_start: u64,
     pub free_blocks: u16,
     pub free_inodes: u16,
     pub free_extents: u16,
@@ -101,7 +101,7 @@ impl BitMap {
             // Initialized with None This is the default state , memory has not yet been grown,
             // or the bitmap has not yet been initialized.
             offset: offset,
-
+            block_start: block_start,
             free_blocks: 0,
             free_inodes: 0,
             free_extents: 0,

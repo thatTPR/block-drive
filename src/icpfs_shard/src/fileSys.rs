@@ -302,16 +302,17 @@ pub struct Fs {
 impl Fs { 
     pub fn new(blocksize: u32, start: u32 ) 
     {
+        let sb = types::SuperBlock::new(start, blocksize, None, MAX_BLOCKS) ;
+        let bm  = types::BitMap::new(MAX_BLOCKS, (start + size_of<types::SuperBlock>), ( start +  size_of<types::BitMap>())) ; 
+
+        let it  = types::InodeTable::new(start + size_of<types::SuperBlock> + size_of<types::BitMap>() ) ; 
+        let ex = HashMap::new() ;
         let mut fs = Self {
             offset: start,
-            dataMap: dataMap::new(types::SuperBlock::new(start, blocksize, None, MAX_BLOCKS) ,
-                                    types::BitMap::new(MAX_BLOCKS, start + size_of<types::SuperBlock>  , HashMap::new()),
-                                     types::InodeTable::new(start + size_of<types::SuperBlock> +size_of<types::BitMap> ),
-                                    HashMap::new()),
-                                    
+            dataMap: dataMap::new(sb , bm , it , ex),                     
             cursor: start,
             handles: Vec::new(),
-            cursor: todo!(), 
+            cursor: start, 
         };
         
         

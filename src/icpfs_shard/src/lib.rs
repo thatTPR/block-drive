@@ -3,25 +3,34 @@ mod types;
 use std::{mem::size_of, str::FromStr} ;
 
 mod path; 
-
-
+mod controller ;
+use controller ;
 use ic_cdk::api::stable::*;
 use ic_cdk_macros::*;
 use ic_utils::canister::Canister;
 use serde::{Serialize, Deserialize};
 
+struct sysStruct { // 
 
+}
 
 // any stable operation that is not done through the fs api in the same canister breaks it do not do it
-
+type controller = bool ;
 #[derive(Serialize, Deserialize, Debug, Default)]
 struct ICPFS<'a> { // In the wild you might want to deploy this within your own structs that serve http endpoints so that you can serve the canisters to an Authenticated actor
     dangledFrom: u32,
     danglingTo: u32,
     single: bool , // True for single canister, false for multiple canisters
-    references: Vec<ic_utils::Canister<'a>>, // References of all canisters in the filesystem
+    
+
+    references: Vec<(ic_utils::Canister<'a>, controller)>, // References of all canisters in the filesystem and their 
+    controllerRefs: Vec<(ic_utils::Canister<'a> ), 
     size: u32, // How many canisters make up the filesystem
     current: u32, // Current canister in use index
+
+    controller: bool ,
+    baseline: bool , 
+    canisters: Vec<> , 
      
     wd: path::Path, // Non stable Used cause I wanted to have cwd operations and because I thought there could be worse things than possibly giving the user a terminal
     fs: fileSys::Fs // Stable but handled internally
@@ -32,25 +41,36 @@ impl ICPFS<'a> {
     fn new(danglingFrom: u32, danglingTo:u32 ,single:bool, references:Vec<reference> , BlockSize: u32, prevNo: u8   ) { 
         
         
-            let current = Self {
+            let mut  current = Self {
                 dangledFrom: danglingFrom,
                 danglingTo: danglingTo,
                 
                 single: mode ,
-                size: references.len() as u32,
+                references: references.push(ic_utils::canister::Canister::canister_id_(&self)),
+                size: references.len() ,
 
                 current: references.len() , 
-                references: references.push(ic_utils::canister::Canister<'a>::canister_id_(&self)),
+                controller : false ,
+                controllerRefs: Vec::new(),
+                
                 wd: path::Path::new(String::from_str("/")),
                 fs: fileSys::Fs::new( 1024  , 0)               
             };
         
-           
-            
-            return current ;
+            let currentBool = current.first() ;
+            Ok
+        
 
     }
-   
+    fn first(self) -> bool { 
+        if self.current == 0 {
+            self.controller = true ;
+            return true ;
+        }
+    }
+    fn controller(self) -> bool  {
+         return self.controller ;
+    }
     fn init() { // This initializes the canister from the filesystem
          
     }
@@ -145,10 +165,9 @@ impl ICPFS<'a> {
 
 use ic_cdk_macros::* ;
 
-#[update( name = "clone")]
-fn clone(){
 
-}
+
+
 #[update (name = "updateReference")]
 fn update_Reference(refs: Vec<ic_utils::Canister>, from : ic_utils::Canister ) -> { // Updates the references of all shards 
 
@@ -162,14 +181,25 @@ fn get_files(refs: ){
 
 }
 #[query (name = "getAll")]
-fn get_All() -> String {
+fn get_All(path: String) -> String {
 
 }
 #[query (name = "getFileContents")]
-fn get_FileContents(){
+fn get_FileContents(path: String){
 
 }
 #[query (name = "get_File")]
-fn get_File(){
+fn get_File(path: String){
 
 }
+
+// service fs_shard {
+//     "new": (String) -> () update ;
+//     "clone": (Principal) -> (prinicipal, bool) update ;
+//     "updateReference": (Vec, ) -> (principal , bool ) update ;
+    
+//     "getFolders": (String) -> (Vec) query;
+//     "getFiles": (String) -> (Vec) query ;
+//     "getAll": (String) -> (Vec) query ;
+//     "getFileContents"(String, nat, nat) -> (Text) query ;
+// }

@@ -3,8 +3,8 @@ import './login.js';
 // Imports candid interface
 import { idlFactory } from './hello.did.js.js';
 
-import token from 'ic:cansiters/token';
-import core from 'ic:cansisters/core';
+import token from 'ic:canisters/token';
+import core from 'ic:canisters/core';
 // CANISTER_ID is replaced by webpack based on node enviroment
 
 

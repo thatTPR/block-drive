@@ -10,7 +10,7 @@ impl Path {
             nodes: pathSplit(&path),
         }
     }
-    pub fn parent(&self) {
+    pub fn parent(&self) -> Path {
         return self.nodes.pop().pop();
     }
 }
